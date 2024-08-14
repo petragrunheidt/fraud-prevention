@@ -13,10 +13,11 @@ services:
       - "3000:3000"
     networks:
       - fraud
-    command: bash -c "bundle install && ruby server.rb"
+    command: bash -c "bundle && ruby server.rb"
 
 volumes:
   rubygems:
+  pgdata:
   gemconfig:
 
 networks:
