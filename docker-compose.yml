@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  fraud:
+    image: ruby:3.3
+    container_name: fraud
+    working_dir: /fraud
+    volumes:
+      - .:/fraud
+      - rubygems:/usr/local/bundle
+      - gemconfig:/root/.local/share/gem
+    ports:
+      - "3000:3000"
+    networks:
+      - fraud
+    command: bash -c "bundle install && ruby server.rb"
+
+volumes:
+  rubygems:
+  gemconfig:
+
+networks:
+  fraud: {}
