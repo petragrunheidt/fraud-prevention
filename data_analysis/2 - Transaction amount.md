@@ -46,4 +46,6 @@
     outliers.count("TRUE") # returns 43
     outliers.count("FALSE") # returns 49
   ```
-  Compared to the full data set with 391 `"TRUE"` and 2808`"FALSE"`, this is probably a significant attribute for the analysis of fraud, but not an absolute one
+
+  Compared to the full data set with `8.2%` of frauds the value of `46.7%` shows that this is probably a significant attribute for the analysis of fraud.
+  
