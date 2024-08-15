@@ -4,6 +4,8 @@ services:
   fraud:
     image: ruby:3.3
     container_name: fraud
+    depends_on:
+      - fraud-pg
     working_dir: /fraud
     volumes:
       - .:/fraud
@@ -13,7 +15,23 @@ services:
       - "3000:3000"
     networks:
       - fraud
-    command: bash -c "bundle && ruby server.rb"
+    command: bash -c "bundle && rails s -p '3000' -b '0.0.0.0'"
+
+  fraud-pg:
+    container_name: fraud-pg
+    image: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - fraud
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    command: postgres
+    ports:
+      - "5432:5432"
 
 volumes:
   rubygems:
