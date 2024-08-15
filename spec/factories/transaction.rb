@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :transaction do
-    transaction_id { rand(1..100_000) }
     merchant_id { rand(1..100_000) }
     user_id { rand(1..100_000) }
     card_number { "#{rand(100000..999999)}******#{rand(1000..9999)}" }
