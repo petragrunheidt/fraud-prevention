@@ -14,6 +14,8 @@
 
 - Issuer: the financial institution that provides banking accounts to consumers. It is responsible for managing the customer's account, authorizing transactions, and handling the billing and payments. When a customer makes a purchase, the issuer verifies that the cardholder has sufficient funds or credit, and then approves or declines the transaction.
 
+### 1
+
 #### The money and information flow
 
   When a customer requests a product from a merchant and provides payment information, the merchant doesn't store this data but forwards it to a payment gateway provided by the acquirer. The payment gateway applies a series of rules to determine whether the payment should be accepted or rejected. It also gathers valuable transaction information that the acquirer uses later. Once the payment is processed, the merchant is informed of the transaction's success or failure.
@@ -45,69 +47,5 @@
   Chargebacks are usually a lot more related to frauds than Cancellations, because they are the means to address damage caused by an undetected fraud. This causes finantial loss for the Issuer and the Acdquirers, as they are directly responsible for implements Chargeback on systems and sometimes deal with part of the coast associated with frauds. Cancellations, on the other hand are more related to legitimate reasons for a transaction not to occur.
 
 ## 3.2 - Get your hands dirty
+
   Check out the documents in the `data_analysis` folder for the records of tests performed with the dataset
-
-  ### Building objects in ruby to analyze patterns in the dataset
-
-  Disclaimer: this is the perfect use case for a jupyter notebook, but I'm using this markdown rubyter notebook all the same
-  For this part of the project, I developed a simple csv parsing script that transforms the csv file into a hash so I can interact with the dataset.
-  The starting point is running:
-
-  ```rb
-    require './lib/csv_parser'
-
-    path = './data.csv'
-    data_hash = CsvParser.call(path)
-  ```
-
-  #### Pure transaction_amount analysis
-
-  Starting with a basic analysis of the transaction amount, I will be collecting the mean, the variance and the standart deviation:
-
-  ```rb
-    transaction_amounts = data_hash.map { |row| row[:transaction_amount].to_f }
-
-    mean = transaction_amounts.sum / transaction_amounts.size
-    variance = transaction_amounts.map { |x| (x - mean)**2 }.sum / transaction_amounts.size
-    std_deviation = Math.sqrt(variance)
-  ```
-
-  For this dataset, the values are:
-
-  ```rb
-    mean = 767.81
-    variance = 790244.42
-    std_deviation = 888.95
-  ```
-
-  This allows us to find ouliters by calculating the z_score with:
-
-  ```rb
-    def z_score(value, mean, std_dev)
-      (value - mean) / std_dev
-    end
-  ```
-
-  Now we can filter out outlier values by doing:
-
-  ```rb
-    outliers = []
-
-    data_hash.each do |point|
-      amount = point[:transaction_amount].to_f
-      is_outlier = z_score(amount, mean, std_dev). abs > 3
-
-      outliers << point if is_outlier
-    end
-  ```
-
-  The result is 92 outliers from the 3199 dataset, now let's investigater their has_cbk value
-
-  ```rb
-    outliers_cbks = outliers.map { |hash| hash[:has_cbk] }
-    outliers.count("TRUE") # returns 43
-    outliers.count("FALSE") # returns 49
-  ```
-  Compared to the full data set with 391 `"TRUE"` and 2808`"FALSE"`, this is probably a significant attribute for the analysis of fraud, but not an absolute one
-
-

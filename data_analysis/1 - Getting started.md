@@ -2,7 +2,7 @@
 
   ### Building objects in ruby to analyze patterns in the dataset
 
-  Disclaimer: this is the perfect use case for a jupyter notebook, but I'm using this markdown rubyter notebook all the same
+  Disclaimer: this is the perfect use case for a jupyter notebook data analysis in python, but I'm using this markdown rubyter notebook all the same
   For this part of the project, I developed a simple csv parsing script that transforms the csv file into a hash so I can interact with the dataset.
   The starting point is running:
 
