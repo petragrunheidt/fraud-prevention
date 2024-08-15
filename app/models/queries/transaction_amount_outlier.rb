@@ -33,7 +33,7 @@ module Queries
          STDDEV_POP(transaction_amount) AS std_deviation"
       )
 
-      { mean: mean.to_f, std_deviation: std_deviation.to_f }
+      { mean:, std_deviation: }
     end
   end
 end
