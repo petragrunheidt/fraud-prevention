@@ -14,7 +14,7 @@
     end
   end
 
-  filtered_users = filter_by_multiple_transactions(grouped_by_users)
+  filtered_users = filter_by_multiple_transactions(grouped_by_user)
   ```
 
   For startes we have a very reduced sample, only 235 users repeated a transaction.
