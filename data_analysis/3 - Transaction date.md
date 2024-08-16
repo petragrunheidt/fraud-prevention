@@ -50,7 +50,7 @@
           previous_t = ts[i - 1]
           diff =  t[:transaction_date] - previous_t[:transaction_date]
 
-          t[:time_diff_seconds] = (diff * 24 * 60 * 60).to_i
+          t[:time_diff_seconds] = (diff * 24 * 60 * 60).to_f
         end 
       end
     end
@@ -78,4 +78,30 @@
     fraud_mean = mean_time_diff(fraudulent_transactions) # about 16 hours, 0 minutes, and 43.62 seconds.
   ```
 
-  This is a simplified measurement, but if shows that there is a significant difference in both samples, which indicates that time from last transaction is a relevant indicator of Fraud
+  This is a simplified measurement, but it shows that there is a significant difference in both samples.
+
+  Now, let's add another simple measurement. I'm going to take the valid_transactions array, split it into two groups, one with a time difference greater than 24 hours and one with a lower time difference, and analyze the amount of chargebacks.
+
+  ```rb
+  lower_group = []
+  upper_group = []
+  
+  one_day = 24 * 60 * 60
+  valid_transactions.each do |t|
+    time_diff_days = t[:time_diff_seconds] / one_day
+
+    time_diff_days > 1 ? upper_group << t : lower_group << t
+  end 
+  ```
+
+  Analyzing both groups with our cbk_proportion function, we get:
+
+  upper_group:
+    - Proportion with chargeback: `29.55%`
+    - Proportion without chargeback: `70.45%`
+
+  lower_group:
+    - Proportion with chargeback: `60.88%`
+    - Proportion without chargeback: `39.12%`
+
+  Both groups have a higher rate os chargebacks than the main sample, but the difference in the lower group is a lot more significant. This indicates that the time since the last transaction is a relevant indicator of fraud.
