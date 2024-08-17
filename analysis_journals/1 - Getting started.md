@@ -15,14 +15,15 @@
 
   The dataset has `3199` records, `391` flagged for automatic fraud detection (about `8.2%`)
 
-  I'm also going to frequently be using the following function to determine the proportion of chargebacks in specific group cuts:
+  I'm also going to frequently be using the following function to determine the proportion of chargebacks in specific group cuts of transactions:
 
   ```rb
-    def cbk_proportion(group)
-      total = group.size.to_f
-      with_cbk = group.count { |t| t[:has_cbk] == "TRUE" }.to_f
+    def cbk_proportion(transaction_group)
+      total = transaction_group.size.to_f
+      with_cbk = transaction_group.count { |t| t[:has_cbk] == "TRUE" }.to_f
       without_cbk = total - with_cbk
 
+      puts format("The size of the sample is: %.0f", transaction_group.count)
       puts format("Proportion with chargeback: %.2f%%", (with_cbk/ total) * 100)
       puts format("Proportion without chargeback: %.2f%%", (without_cbk/ total) * 100)
     end

@@ -1,6 +1,6 @@
-### transaction amount analysis
+## Transaction Amount Analysis
 
-  Starting with a basic analysis of the transaction amount, I will be collecting the mean, the variance and the standart deviation:
+  In this section we'll perform a basic analysis of the transaction amount, we will be collecting the mean, variance, and standard deviation:
 
   ```rb
     transaction_amounts = data_hash.map { |row| row[:transaction_amount].to_f }
@@ -33,7 +33,7 @@
 
     data_hash.each do |point|
       amount = point[:transaction_amount].to_f
-      is_outlier = z_score(amount, mean, std_dev). abs > 3
+      is_outlier = z_score(amount, mean, std_deviation). abs > 3
 
       outliers << point if is_outlier
     end
@@ -42,10 +42,12 @@
   The result is 92 outliers from the 3199 dataset, now let's investigater their has_cbk value
 
   ```rb
-    outliers_cbks = outliers.map { |hash| hash[:has_cbk] }
-    outliers.count("TRUE") # returns 43
-    outliers.count("FALSE") # returns 49
+    cbk_proportion(outliers)
   ```
+
+  The size of the sample is: 92
+  Proportion with chargeback: 46.74%
+  Proportion without chargeback: 53.26%
 
   Compared to the full data set with `8.2%` of frauds the value of `46.7%` shows that this is probably a significant attribute for the analysis of fraud.
   
