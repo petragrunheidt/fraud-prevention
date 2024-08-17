@@ -5,11 +5,11 @@ class Queries::PreviousFraudPercentage
     @merchant_id = merchant_id
   end
 
-  def self.normalized_previous_fraud_percentage(user_id, device_id, merchant_id)
-    new(user_id, device_id, merchant_id).normalized_previous_fraud_percentage
+  def self.normalized_percentage(user_id, device_id, merchant_id)
+    new(user_id, device_id, merchant_id).normalized_percentage
   end
 
-  def normalized_previous_fraud_percentage
+  def normalized_percentage
     percentages = previous_fraud_list_percentages.values
 
     percentages.sum / percentages.size.to_f
