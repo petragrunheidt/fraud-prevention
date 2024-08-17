@@ -29,7 +29,7 @@ class TransactionsImporter
       transaction_date: DateTime.parse(t_hash[:transaction_date]),
       transaction_amount: BigDecimal(t_hash[:transaction_amount]).round(2),
       device_id: t_hash[:device_id].to_i,
-      has_cbk: t_hash[:has_cbk] == "TRUE"
+      has_cbk: t_hash[:has_cbk] == 'TRUE'
     }
   end
 end

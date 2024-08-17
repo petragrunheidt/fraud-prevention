@@ -10,8 +10,7 @@ RSpec.describe TransactionsImporter do
     it 'parses csv file into a hash with breakfast information' do
       csv_data = CsvParser.call(csv_path).sample(10)
 
-      expect { described_class.call(csv_data) }.to change { Transaction.count }
-
+      expect { described_class.call(csv_data) }.to(change { Transaction.count })
     end
   end
 end
