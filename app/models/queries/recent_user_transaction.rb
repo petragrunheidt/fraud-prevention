@@ -10,7 +10,7 @@ module Queries
     end
 
     def time_since_last_transaction
-      latest_transaction_date && transaction_date - latest_transaction_date
+      latest_transaction_date && (transaction_date - latest_transaction_date)
     end
 
     private
@@ -18,11 +18,11 @@ module Queries
     attr_reader :user_id, :transaction_date
 
     def latest_transaction_date
-      Transaction.where(user_id: user_id)
-      .order(transaction_date: :desc)
-      .limit(1)
-      .pluck(:transaction_date)
-      .first
+      Transaction.where(user_id:)
+                 .order(transaction_date: :desc)
+                 .limit(1)
+                 .pluck(:transaction_date)
+                 .first
     end
   end
 end
