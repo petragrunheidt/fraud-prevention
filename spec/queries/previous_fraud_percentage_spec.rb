@@ -18,21 +18,21 @@ RSpec.describe Queries::PreviousFraudPercentage do
 
     it 'returns the correct fraud percentages for each attribute' do
       normalized_percentage = described_class
-                              .normalized_previous_fraud_percentage(user_id, device_id, merchant_id)
+                              .normalized_percentage(user_id, device_id, merchant_id)
 
       expect(normalized_percentage).to eq(0.6)
     end
 
     it 'when only one attribute matches a previous transaction' do
       normalized_percentage = described_class
-                              .normalized_previous_fraud_percentage(user_id, 202, 303)
+                              .normalized_percentage(user_id, 202, 303)
 
       expect(normalized_percentage).to be 0.8 / 3.0
     end
 
     it 'returns 0.0 if no transactions for an attribute' do
       normalized_percentage = described_class
-                              .normalized_previous_fraud_percentage(101, 202, 303)
+                              .normalized_percentage(101, 202, 303)
 
       expect(normalized_percentage).to eq(0.0)
     end
