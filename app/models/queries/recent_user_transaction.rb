@@ -5,11 +5,11 @@ module Queries
       @transaction_date = transaction_date
     end
 
-    def self.time_from_last_transaction(user_id:, transaction_date:)
-      new(user_id, transaction_date).time_from_last_transaction
+    def self.time_since_last_transaction(user_id:, transaction_date:)
+      new(user_id, transaction_date).time_since_last_transaction
     end
 
-    def time_from_last_transaction
+    def time_since_last_transaction
       latest_transaction_date && transaction_date - latest_transaction_date
     end
 
