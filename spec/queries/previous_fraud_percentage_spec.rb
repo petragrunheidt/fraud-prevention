@@ -36,5 +36,21 @@ RSpec.describe Queries::PreviousFraudPercentage do
 
       expect(normalized_percentage).to eq(0.0)
     end
+
+    context 'when there are nil values for the arguments' do
+      it 'calculates correct percentage when device_id is nil' do
+        normalized_percentage = described_class
+                                .normalized_percentage(user_id, nil, merchant_id)
+
+        expect(normalized_percentage).to eq((0.8 + 0.8 + 0) / 3.0)
+      end
+
+      it 'returns 0.0 when all values are nil' do
+        normalized_percentage = described_class
+                                .normalized_percentage(nil, nil, nil)
+
+        expect(normalized_percentage).to eq(0.0)
+      end
+    end
   end
 end
