@@ -4,11 +4,11 @@ module Queries
       @current_transaction_amount = current_transaction_amount
     end
 
-    def self.is_outlier?(current_transaction_amount)
-      new(current_transaction_amount).is_outlier?
+    def self.outlier?(current_transaction_amount)
+      new(current_transaction_amount).outlier?
     end
 
-    def is_outlier?
+    def outlier?
       stats = calculate_current_stats
       z = z_score(
         current_transaction_amount,
@@ -18,9 +18,9 @@ module Queries
 
       z.abs > 3
     end
-  
+
     private
-  
+
     attr_reader :current_transaction_amount
 
     def z_score(value, mean, std_deviation)
@@ -29,7 +29,7 @@ module Queries
 
     def calculate_current_stats
       mean, std_deviation = Transaction.pick(
-        "AVG(transaction_amount) AS mean, 
+        "AVG(transaction_amount) AS mean,
          STDDEV_POP(transaction_amount) AS std_deviation"
       )
 
