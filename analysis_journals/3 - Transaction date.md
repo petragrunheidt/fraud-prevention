@@ -10,7 +10,7 @@
 
   def filter_by_multiple_transactions(data)
     data.select do |user_id, transactions|
-      transactions.size > 1
+      transactions.size > 3
     end
   end
 
@@ -105,3 +105,13 @@
     - Proportion without chargeback: `39.12%`
 
   Both groups have a higher rate os chargebacks than the main sample, but the difference in the lower group is a lot more significant. This indicates that the time since the last transaction is a relevant indicator of fraud.
+
+### Pre defined date rule
+
+A good practice for transaction fraud prevention is setting a limit on the number of transactions a user can make within a specific timeframe. In our dataset, few users (48 examples) have more than three transactions. However, for those who do, the incidence of fraud increases significantly, and the average time between transactions decreases for the group flagged for fraud.
+
+By applying the same logic in Ruby, but flagging users with more than three transactions, the average time between transactions drops to less than 12 hours.
+
+In real-life scenarios, it's plausible for someone to make several small transactions, such as buying groceries and picking up small items from different merchants. However, multiple high-value transactions are a strong indicator of fraud. If it's a false positive, the user is likely to understand why their transaction was flagged as a fraud if the value is high.
+
+We could derive a reasonable static rule for this such as, after 3 transactions within 12 hours, the user can only perform transactions of small value, and after 5 total purchases the user is blocked.
