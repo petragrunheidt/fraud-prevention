@@ -1,6 +1,12 @@
 class TransactionsController < ApplicationController
   def create
-    transaction = new_transaction(true)
+    transaction = Transaction.new(
+      transaction_date: Time.zone.now,
+      **transaction_params
+    )
+    transaction.has_cbk = flag_fraud? transaction
+
+    return :unprocessable_entity unless transaction.save!
 
     response = { transaction_id: transaction.transaction_id, recommendation: 'approve' }
 
@@ -9,15 +15,10 @@ class TransactionsController < ApplicationController
 
   private
 
-  def new_transaction(has_cbk)
-    @transaction = Transaction
-                   .create!(
-                     {
-                       **transaction_params,
-                       transaction_date: Time.zone.now,
-                       has_cbk:
-                     }
-                   )
+  def flag_fraud?(transaction)
+    fraud_score = Services::FraudScore.fraud_score(transaction)
+
+    fraud_score > 15
   end
 
   def transaction_params
