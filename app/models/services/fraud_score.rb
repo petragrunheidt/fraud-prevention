@@ -47,7 +47,6 @@ module Services
 
     def previous_frauds_score
       percentage = Queries::PreviousFraudPercentage.normalized_percentage(
-        transaction.user_id,
         transaction.device_id,
         transaction.merchant_id
       )

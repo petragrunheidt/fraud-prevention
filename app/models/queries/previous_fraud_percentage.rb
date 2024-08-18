@@ -1,12 +1,14 @@
+# Reject transaction if a user had a chargeback before (note that this information does not comes on the payload.
+#  The chargeback data is received days after the transaction was approved)
+
 class Queries::PreviousFraudPercentage
-  def initialize(user_id, device_id, merchant_id)
-    @user_id = user_id
+  def initialize(device_id, merchant_id)
     @device_id = device_id
     @merchant_id = merchant_id
   end
 
-  def self.normalized_percentage(user_id, device_id, merchant_id)
-    new(user_id, device_id, merchant_id).normalized_percentage
+  def self.normalized_percentage(device_id, merchant_id)
+    new(device_id, merchant_id).normalized_percentage
   end
 
   def normalized_percentage
@@ -17,10 +19,10 @@ class Queries::PreviousFraudPercentage
 
   private
 
-  attr_reader :user_id, :device_id, :merchant_id
+  attr_reader :device_id, :merchant_id
 
   def previous_fraud_list_percentages
-    { user_id:, device_id:, merchant_id: }.each_with_object({}) do |(k, v), acc|
+    { device_id:, merchant_id: }.each_with_object({}) do |(k, v), acc|
       fraud_percentage = attribute_frauds_percentage({ k => v })
       acc[k] = fraud_percentage
     end
