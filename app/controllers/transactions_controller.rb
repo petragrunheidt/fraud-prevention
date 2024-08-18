@@ -1,4 +1,8 @@
 class TransactionsController < ApplicationController
+  FRAUD_SCORE_THRESHOLD = 15
+
+  private_constant :FRAUD_SCORE_THRESHOLD
+
   def create
     transaction = Transaction.new(transaction_params)
     is_fraud = flag_fraud?(transaction)
@@ -15,9 +19,9 @@ class TransactionsController < ApplicationController
   private
 
   def flag_fraud?(transaction)
-    fraud_score = Services::FraudScore.fraud_score(transaction)
+    return true if Services::FraudBlock.should_block?(transaction)
 
-    fraud_score > 15
+    Services::FraudScore.fraud_score(transaction) > FRAUD_SCORE_THRESHOLD
   end
 
   def recommendation(is_fraud)
