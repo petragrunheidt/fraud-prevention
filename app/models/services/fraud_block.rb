@@ -14,15 +14,25 @@ module Services
     end
 
     def should_block?
-      [
-        recent_transaction_rule,
-        previous_user_fraud_rule
-      ].any?
+      all_rules.reduce(false) do |acc, rule|
+        acc || rule
+      end
     end
 
     private
 
     attr_reader :transaction
+
+    def all_rules
+      [
+        recent_transaction_rule,
+        previous_user_fraud_rule
+      ]
+    end
+
+    def previous_user_fraud_rule
+      Transaction.where(user_id: transaction.user_id, has_cbk: true).exists?
+    end
 
     def recent_transaction_rule
       count = recent_transactions_count
@@ -38,10 +48,6 @@ module Services
         transaction_date: transaction.transaction_date,
         recent_threshold: RECENT_RULE_THRESHOLD
       )
-    end
-
-    def previous_user_fraud_rule
-      Transaction.where(user_id: transaction.user_id, has_cbk: true).exists?
     end
   end
 end
