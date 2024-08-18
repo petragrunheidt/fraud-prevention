@@ -1,6 +1,9 @@
 module Queries
   class RecentUserTransaction
     DEFAULT_RECENT_THRESHOLD = 12.hours
+
+    private_constant :DEFAULT_RECENT_THRESHOLD
+
     def initialize(
       user_id,
       transaction_date,
