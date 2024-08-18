@@ -1,6 +1,3 @@
-# Reject transaction if a user had a chargeback before (note that this information does not comes on the payload.
-#  The chargeback data is received days after the transaction was approved)
-
 class Queries::PreviousFraudPercentage
   def initialize(device_id, merchant_id)
     @device_id = device_id
