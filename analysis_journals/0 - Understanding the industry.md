@@ -1,8 +1,8 @@
-## Tasks
+# Tasks
 
 ## 3.1 Understand the Industry
 
-#### The main players in the acquirer market
+### The main players in the acquirer market
 
 - Merchant: a business or person that sells goods or services to customers. Merchants use payment processing systems to handle transactions and receive payments for their products or services.
 
@@ -18,9 +18,13 @@
 
 #### The money and information flow
 
-  When a customer requests a product from a merchant and provides payment information, the merchant doesn't store this data but forwards it to a payment gateway provided by the acquirer. The payment gateway applies a series of rules to determine whether the payment should be accepted or rejected. It also gathers valuable transaction information that the acquirer uses later. Once the payment is processed, the merchant is informed of the transaction's success or failure.
+  When a customer requests a product from a merchant and provides payment information, the merchant doesn't store this data but forwards it to a payment gateway provided by the acquirer. The payment gateway applies a series of rules to determine whether the payment should be accepted or rejected. It also gathers valuable transaction information that the acquirer uses later.
 
-  At this point, the happy path of the transaction flow is complete. However, complications can still arise. A customer may cancel their purchase and request a refund, or they might report fraudulent activity. These scenarios introduce complexities that the acquirer's system must navigate effectively.
+  Once the payment gateway approves the transaction, the payment information is sent to the Issuer. Then they verifies the transaction, checks if the customer has sufficient funds or credit, and then authorizes the transfer of money from the customer's account to the acquirer's account.
+
+  After the issuer processes the payment and confirms that the funds are available, the money is transferred from the customer's account to the acquirer, who then credits the merchant's account
+
+  At this point, the happy path of the transaction flow is complete. However, complications can still arise. A customer may cancel their purchase and request a refund, or they might report fraudulent activity. These scenarios introduce complexities that the acquirer's system must deal with effectively.
 
 ### 2
 
@@ -30,7 +34,7 @@
 
   Now, the difference between an Acquirer and a Sub-Acquirer can be harder to grasp, as they share many goals and responsibilities. Both are involved in enabling merchants to accept payments and managing the flow of funds from the customer’s account to the merchant’s account. However, the primary distinction lies in their level of interaction with the broader financial system and their scope of services.
 
-  The Acquirer is the business that directly interfaces with the Issuer (the banking institution that provides payment cards to customers) and is responsible for facilitating the transfer of funds from the customer's bank to the merchant. The adquirers also must deal with processing chargeback requests, and may be accoutable to loss in cases of fraud.
+  The Acquirer is the business that directly interfaces with the Issuer (the banking institution that provides payment cards to customers) and is responsible for facilitating the transfer of funds from the customer's bank to the merchant. The Adquirer also must deal with processing chargeback requests, and may be accoutable to loss in cases of fraud.
 
   Sub-Acquirers, on the other hand, operate under the umbrella of the Acquirer and handle specific parts of the payment processing chain. While they don't have direct connections with Issuers, they act in managing the relationships with smaller merchants who might not meet the criteria to work directly with an Acquirer. Sub-Acquirers often specialize in particular markets or offer additional services such as fraud prevention, customer support, or custom payment solutions that cater to niche business needs.
 
@@ -45,7 +49,3 @@
   A Cancellation is similar but very different, because it is a request that happens before the transaction is fully completed. For example, if a consumer decides not to go through with a purchase, they might cancel the transaction, and the merchant would refund the amount before it is charged to the customer’s card.
 
   Chargebacks are usually a lot more related to frauds than Cancellations, because they are the means to address damage caused by an undetected fraud. This causes finantial loss for the Issuer and the Acdquirers, as they are directly responsible for implements Chargeback on systems and sometimes deal with part of the coast associated with frauds. Cancellations, on the other hand are more related to legitimate reasons for a transaction not to occur.
-
-## 3.2 - Get your hands dirty
-
-  Check out the documents in the `data_analysis` folder for the records of tests performed with the dataset

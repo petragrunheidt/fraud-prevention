@@ -1,6 +1,6 @@
-## 3.2 - Get your hands dirty
+# 3.2 - Get your hands dirty
 
-  ### Building objects in ruby to analyze patterns in the dataset
+## Building objects in ruby to analyze patterns in the dataset
 
   Disclaimer: this is the perfect use case for a jupyter notebook data analysis in python, but I'm using this markdown rubyter notebook all the same
   For this part of the project, I developed a simple csv parsing script that transforms the csv file into a hash so I can interact with the dataset.

@@ -1,6 +1,6 @@
-### Device id analysis
+# Device id analysis
 
-#### device_id missing?
+## device_id missing?
 
   On a simple inspection through the csv, it is noticeable that some transactions don't have a `device_id`. Assuming all transactions are from mobile devices, it is suspicious that a device will go unregistered. Let's investigate the rate os frauds in entries without a device_id
 
@@ -14,7 +14,7 @@
   `has_cbk == "FALSE"`: 763
   That is `8.7%`, only slightly higher than the global average, so this is probably not a good parameter to analyze fraud.
 
-#### device is already associated with frauds
+## device is already associated with frauds
 
   Devices that were involved in the past with frauds are more likely to be involved with frauds again. To identify such devices, we can group our data by device_id and filter by those with a history of fraud. While we are at it, we should also exclude the first flagged transaction and the ones before it, and only analyze the remainder, because what we want to know is: "after a fraud happened with a certain `device_id`, is it more likely to happen again with the same device?".
 
@@ -41,7 +41,7 @@
   In this scope, the percentage of frauds is significantly high at `84.95%`.
   This seems to be the most significant parameter we found so far, but with a smaller scope of transactions, because only `319` records match all of the conditions
 
-#### could the same be true for other attributes already associated with frauds?
+## could the same be true for other attributes already associated with frauds?
 
   From all our attributes:
 

@@ -1,4 +1,4 @@
-## Transaction Amount Analysis
+# Transaction Amount Analysis
 
   In this section we'll perform a basic analysis of the transaction amount, we will be collecting the mean, variance, and standard deviation:
 
