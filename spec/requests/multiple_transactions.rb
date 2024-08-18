@@ -1,3 +1,4 @@
+# This test file is not named _spec, because it is a special test file meant to be ran manually
 require 'rails_helper'
 require './lib/csv_parser'
 require './lib/transactions_importer'

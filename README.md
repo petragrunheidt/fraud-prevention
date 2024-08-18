@@ -1,42 +1,62 @@
-# Fraud detection API
+# Fraud Detection API
 
 ## Description
 
-This API is a simple Rails application that tries to detect fraud on a series of transactions.
+  This API is a simple Rails application designed to detect fraud in a series of transactions.
 
-## Requirements
+## Specs
 
-- Ruby 3.3
-- Rails 7.2
-- Postgres
+- **Ruby**: 3.3
+- **Rails**: 7.2
+- **Postgres**
 
-## How to run
+## How to Run
 
 ### Docker
 
-You can start the application with a docker compose file and create the initial database with:
+  To start the application using Docker and set up the initial database, execute the following commands:
 
-- `docker compose build`
-- `docker compose up`
-- `docker exec fraud rails db:create`
+1. Build the Docker images:
 
-## How to test
+```bash
+docker compose build
+```
 
-To test the application with docker you can bash into the container with:
+2. Start the application:
 
-- `docker exec -it fraud bash`
+```bash
+docker compose up
+```
 
-And then run the tests with `rspec`.
+3. Create the initial database:
+
+```bash
+docker exec fraud rails db:create
+```
+
+## How to Test
+
+To run tests using Docker, follow these steps:
+
+1. Bash into the container:
+
+```bash
+docker exec -it fraud bash
+```
+
+2. Run the tests with RSpec:
+
+```bash
+rspec
+```
 
 ## Special tests
 
-There is a special test that tests the success rate of the fraud analysis. You can run it with:
+  There is a special test that tests the success rate of the fraud analysis. You can run it with:
 
-- `rspec spec/requests/multiple_transactions`
-
-## Why Rails?
-
-  Initially, I planned on running a simple Sinatra server to run simple Ruby scripts to analyze the data, but it became clear that the computations would be too slow. Rails is a convenient way to have a database configured to run queries efficiently.
+```bash
+rspec spec/requests/multiple_transactions
+```
 
 ## Data analysis
 
