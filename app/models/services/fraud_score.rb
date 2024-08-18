@@ -1,9 +1,14 @@
 module Services
   class FraudScore
     ONE_DAY = 1.day.to_i
-    OUTLIER_TRANSACTION_AMOUNT_SCORE = 10.0
-    RECENT_TRANSACTION_SCORE = 5.0
-    PREVIOUS_FRAUD_SCORE = 10.0
+    OUTLIER_TRANSACTION_AMOUNT_SCORE = 35.0
+    RECENT_TRANSACTION_SCORE = 10.0
+    PREVIOUS_FRAUD_SCORE = 55.0
+
+    private_constant :OUTLIER_TRANSACTION_AMOUNT_SCORE,
+                     :RECENT_TRANSACTION_SCORE,
+                     :PREVIOUS_FRAUD_SCORE
+
     def initialize(transaction)
       @transaction = transaction
     end

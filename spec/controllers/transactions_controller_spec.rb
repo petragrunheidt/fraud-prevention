@@ -20,7 +20,7 @@ RSpec.describe TransactionsController, type: :controller do
         post :create, params: { transaction: post_params }
       }.to change(Transaction, :count).by(1)
 
-      parsed_body = JSON.parse(response.body)
+      JSON.parse(response.body)
 
       expect(response.status).to eq 200
       expect(parsed_response.keys).to match_array response_params
@@ -45,7 +45,7 @@ RSpec.describe TransactionsController, type: :controller do
         expect(parsed_response['recommendation']).to eq 'approve'
       end
 
-      it 'blocks transaction if fraud score is greater than 15' do
+      it 'blocks transaction if fraud score is greater than 60' do
         allow(Services::FraudBlock).to receive(:should_block?).and_return(false)
         allow(Services::FraudScore).to receive(:fraud_score).and_return(16)
 
@@ -54,7 +54,7 @@ RSpec.describe TransactionsController, type: :controller do
         expect(parsed_response['recommendation']).to eq 'deny'
       end
 
-      it 'does not block transaction if fraud score is less than 15' do
+      it 'does not block transaction if fraud score is less than 60' do
         allow(Services::FraudBlock).to receive(:should_block?).and_return(false)
         allow(Services::FraudScore).to receive(:fraud_score).and_return(14)
 

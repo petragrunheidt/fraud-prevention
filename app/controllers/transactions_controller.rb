@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  FRAUD_SCORE_THRESHOLD = 15
+  FRAUD_SCORE_THRESHOLD = 60.0
 
   private_constant :FRAUD_SCORE_THRESHOLD
 
