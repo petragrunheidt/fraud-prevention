@@ -40,6 +40,18 @@ RSpec.describe TransactionsController, type: :controller do
       end
     end
 
+    context 'when receiving http error statuses' do
+      it 'bad_request' do
+        allow(Services::FraudBlock).to receive(:should_block?).and_return(false)
+        allow(Services::FraudScore).to receive(:fraud_score).and_return(0)
+
+        post :create, params: { transaction: { badbad: 'not good params' } }
+
+        expect(response.status).to eq 400
+        expect(parsed_response['message']).to eq 'Bad request'
+      end
+    end
+
     context '.flag_fraud?' do
       it 'blocks transaction if FraudBlock should_block? is true' do
         allow(Services::FraudBlock).to receive(:should_block?).and_return(true)

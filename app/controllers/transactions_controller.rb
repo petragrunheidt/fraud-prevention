@@ -10,9 +10,11 @@ class TransactionsController < ApplicationController
     is_fraud = flag_fraud?(transaction)
 
     return render json: DENIED_RESPONSE, status: :ok if is_fraud
-    return :unprocessable_entity unless transaction.save!
 
+    transaction.save!
     render json: APPROVED_RESPONSE.call(transaction.transaction_id), status: :ok
+  rescue StandardError
+    render json: { message: 'Bad request' }, status: :bad_request
   end
 
   private
@@ -23,22 +25,18 @@ class TransactionsController < ApplicationController
     Services::FraudScore.fraud_score(transaction) > FRAUD_SCORE_THRESHOLD
   end
 
-  def transaction_response(transaction)
-
-  end
+  def transaction_response(transaction); end
 
   def transaction_params
     params
       .require(:transaction)
       .permit(
-        :merchant_id,
-        :user_id,
-        :card_number,
-        :transaction_amount,
+        :merchant_id, :user_id,
+        :card_number, :transaction_amount,
         :device_id
       ).merge({
-        transaction_date: Time.zone.now,
-        has_cbk: false
-      })
+                transaction_date: Time.zone.now,
+                has_cbk: false
+              })
   end
 end
