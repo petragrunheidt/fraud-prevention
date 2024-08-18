@@ -1,6 +1,5 @@
 module Services
   class FraudScore
-    ONE_DAY = 1.day.to_i
     OUTLIER_TRANSACTION_AMOUNT_SCORE = 35.0
     RECENT_TRANSACTION_SCORE = 5.0
     PREVIOUS_FRAUD_SCORE = 55.0
