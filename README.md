@@ -52,11 +52,13 @@ rspec
 
 ## Special tests
 
-  There is a special test that tests the success rate of the fraud analysis. You can run it with:
+  There is a dedicated test designed to evaluate the success rate of the fraud detection algorithm. You can run it with:
 
 ```bash
-rspec spec/requests/multiple_transactions
+rspec spec/requests/multiple_transactions.rb
 ```
+
+  This test populates the database with data from the CSV file, selects samples from the database, and checks whether the model accurately predicts the has_cbk value in more than 90% of the cases.
 
 ## Data analysis
 
