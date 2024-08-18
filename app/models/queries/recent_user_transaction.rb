@@ -32,8 +32,8 @@ module Queries
 
     def calculate_recent_transactions_count
       Transaction.where(
-        user_id: @user_id,
-        transaction_date: @transaction_date.ago(@recent_threshold)..@transaction_date
+        user_id: user_id,
+        transaction_date: transaction_date.ago(recent_threshold)..transaction_date
       ).count
     end
   end
