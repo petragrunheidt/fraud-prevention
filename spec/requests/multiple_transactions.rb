@@ -23,15 +23,20 @@ RSpec.describe 'Multiple Transactions', type: :request do
         }
       end
 
-      request_params_list.each do |r|
+      predictions_and_original_cbk = []
+      request_params_list.each_with_index do |r, i|
         post '/transactions', params: { transaction: r }
+        recommendation = JSON.parse(response.body)['recommendation']
+        predictions_and_original_cbk << { recommendation:, original_cbk: transactions[i].has_cbk }
       end
 
-      new_transactions = Transaction.last(100)
+      correct_predictions_count = predictions_and_original_cbk.count do |prediction|
+        prediction[:recommendation] == (prediction[:original_cbk] ? 'deny' : 'approve')
+      end
 
-      count = transactions.zip(new_transactions).count { |t, nt| t.has_cbk == nt.has_cbk }
-
-      expect(count.to_f / 100).to be > 0.9
+      correct_predictions_percentage = correct_predictions_count.to_f / 100
+      expect(correct_predictions_percentage).to be > 0.9
+      puts format('Correct predictions: %.2f%%', correct_predictions_percentage * 100)
     end
   end
 end
