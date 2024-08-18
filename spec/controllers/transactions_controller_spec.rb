@@ -13,20 +13,31 @@ RSpec.describe TransactionsController, type: :controller do
       }
     }
     let(:parsed_response) { JSON.parse(response.body) }
-    let(:response_params) { %w[transaction_id recommendation] }
 
-    it 'creates a new transaction' do
-      expect {
-        post :create, params: { transaction: post_params }
-      }.to change(Transaction, :count).by(1)
+    context 'when posting a transaction data' do
+      it 'and it is approved' do
+        allow(Services::FraudBlock).to receive(:should_block?).and_return(false)
+        allow(Services::FraudScore).to receive(:fraud_score).and_return(0)
 
-      JSON.parse(response.body)
+        expect {
+          post :create, params: { transaction: post_params }
+        }.to change(Transaction, :count).by(1)
+        expect(response.status).to eq 200
+        expect(parsed_response.keys).to match_array %w[transaction_id recommendation]
+        expect(parsed_response['transaction_id'].class).to be Integer
+        expect(parsed_response['recommendation']).to eq 'approve'
+      end
 
-      expect(response.status).to eq 200
-      expect(parsed_response.keys).to match_array response_params
+      it 'and it is denied' do
+        allow(Services::FraudBlock).to receive(:should_block?).and_return(true)
 
-      expect(parsed_response['transaction_id'].class).to be Integer
-      expect(parsed_response['recommendation']).to be_in(%w[approve deny])
+        expect {
+          post :create, params: { transaction: post_params }
+        }.not_to change(Transaction, :count)
+        expect(response.status).to eq 200
+        expect(parsed_response).not_to have_key 'transaction_id'
+        expect(parsed_response['recommendation']).to eq 'deny'
+      end
     end
 
     context '.flag_fraud?' do
