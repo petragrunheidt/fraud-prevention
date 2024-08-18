@@ -10,6 +10,8 @@ module Queries
 
     def outlier?
       stats = calculate_current_stats
+      return false if stats.values.any?(&:nil?)
+
       z = z_score(
         current_transaction_amount,
         stats[:mean],

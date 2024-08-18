@@ -47,7 +47,7 @@ RSpec.describe TransactionsController, type: :controller do
 
       it 'blocks transaction if fraud score is greater than 60' do
         allow(Services::FraudBlock).to receive(:should_block?).and_return(false)
-        allow(Services::FraudScore).to receive(:fraud_score).and_return(16)
+        allow(Services::FraudScore).to receive(:fraud_score).and_return(100)
 
         post :create, params: { transaction: post_params }
 
