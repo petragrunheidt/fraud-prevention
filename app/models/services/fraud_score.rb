@@ -2,7 +2,7 @@ module Services
   class FraudScore
     ONE_DAY = 1.day.to_i
     OUTLIER_TRANSACTION_AMOUNT_SCORE = 35.0
-    RECENT_TRANSACTION_SCORE = 10.0
+    RECENT_TRANSACTION_SCORE = 5.0
     PREVIOUS_FRAUD_SCORE = 55.0
 
     private_constant :OUTLIER_TRANSACTION_AMOUNT_SCORE,
@@ -35,14 +35,13 @@ module Services
     end
 
     def recent_transaction_score
-      time_since_last_transaction = Queries::RecentUserTransaction
-                                    .time_since_last_transaction(
-                                      user_id: transaction.user_id,
-                                      transaction_date: transaction.transaction_date
-                                    )
-      return 0 if time_since_last_transaction.nil?
+      recent_transactions_count = Queries::RecentUserTransaction
+                                  .recent_transactions_count(
+                                    user_id: transaction.user_id,
+                                    transaction_date: transaction.transaction_date
+                                  )
 
-      time_since_last_transaction <= ONE_DAY ? RECENT_TRANSACTION_SCORE : 0
+      recent_transactions_count * RECENT_TRANSACTION_SCORE
     end
 
     def previous_frauds_score

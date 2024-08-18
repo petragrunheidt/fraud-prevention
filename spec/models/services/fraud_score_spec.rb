@@ -13,7 +13,7 @@ RSpec.describe Services::FraudScore do
       allow(Queries::TransactionAmountOutlier)
         .to receive(:outlier?).and_return(false)
       allow(Queries::RecentUserTransaction)
-        .to receive(:time_since_last_transaction).and_return(2.days.to_i)
+        .to receive(:recent_transactions_count).and_return(0)
       allow(Queries::PreviousFraudPercentage)
         .to receive(:normalized_percentage).and_return(0.0)
     end
@@ -33,18 +33,18 @@ RSpec.describe Services::FraudScore do
       end
     end
 
-    context 'when recent transaction older than one day' do
-      it 'returns a score of 0 for recent_transaction_score' do
-        expect(subject).to eq(0)
+    context 'when the user has two recent transactions' do
+      it 'returns a score of 10.0 for recent_transaction_score' do
+        allow(Queries::RecentUserTransaction)
+          .to receive(:recent_transactions_count).and_return(2)
+
+        expect(subject).to eq(10.0)
       end
     end
 
-    context 'when recent transaction is within one day' do
-      it 'returns the correct score for recent_transaction_score' do
-        allow(Queries::RecentUserTransaction)
-          .to receive(:time_since_last_transaction).and_return(1.day.to_i)
-
-        expect(subject).to be > 0
+    context 'when the user has no recent transactions' do
+      it 'returns a score of 0 for recent_transaction_score' do
+        expect(subject).to eq(0)
       end
     end
 
